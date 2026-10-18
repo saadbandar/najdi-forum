@@ -672,8 +672,7 @@ dash.calc('nk_mix', {
     el.replaceChildren(...groups.map(([name, members]) => {
       const c = document.createElement('div'); c.className = 'nk-comm-card';
       const h = document.createElement('h4'); const hn = document.createElement('span'); hn.textContent = name;
-      const em = document.createElement('em'); em.textContent = members.length + (members.length > 2 ? ' أعضاء' : members.length === 2 ? ' عضوان' : ' جهة');
-      h.append(hn, em);
+      h.append(hn);
       const n = document.createElement('div'); n.className = 'nk-names';
       members.forEach((m) => { const s = document.createElement('span'); s.textContent = m.member; n.append(s); });
       c.append(h, n); return c;
