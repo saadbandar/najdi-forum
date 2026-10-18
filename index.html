@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ملتقى نخبة أهل الحلال 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@500;700&display=swap">
+<style>
+/* صفحة مستقلة: هوية الملتقى الخضراء والذهبية، بطاقات فوق أرضية هادئة */
+:root {
+  --color-bg: #f2f5f1; --color-panel: #ffffff; --color-fg: #17231d; --color-fg-muted: #5b6a62;
+  --color-border-line: #dce3dc; --color-ok: #2f7d55; --color-bad: #b4483a;
+  --font-anthropic-sans: "Noto Kufi Arabic", "Segoe UI", Tahoma, sans-serif;
+  --font-anthropic-serif: "Noto Naskh Arabic", "Amiri", "Times New Roman", serif;
+  --cds-dur-slow: .5s; --cds-ease-out: cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --color-bg: #0d1511; --color-panel: #15201a; --color-fg: #e8eee9; --color-fg-muted: #9aa9a0;
+  --color-border-line: #26342c; --color-ok: #4fae7f; --color-bad: #d96b5a; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --color-bg: #0d1511; --color-panel: #15201a; --color-fg: #e8eee9; --color-fg-muted: #9aa9a0;
+  --color-border-line: #26342c; --color-ok: #4fae7f; --color-bad: #d96b5a; color-scheme: dark; }
+html, body { background: var(--color-bg); color: var(--color-fg); }
+body { font-family: var(--font-anthropic-sans); overflow-x: hidden; }
+.dash-skeleton { color: transparent !important; background: color-mix(in srgb, var(--color-fg) 10%, transparent); border-radius: 6px; }
+.nk-tab:focus-visible, .nk-chip:focus-visible, button:focus-visible { outline: 2px solid #c39a52; outline-offset: 2px; }
+</style>
+<script>
+window.dash = (function () {
+  var FILES = {"kpis": "data/kpis.json", "results": "data/results.json", "program": "data/program.json", "committees": "data/committees.json", "sponsors": "data/sponsors.json", "prizes": "data/prizes.json", "editions": "data/editions.json", "brand": "data/brand.json", "photos": "data/photos.json", "photos2": "data/photos2.json", "round_photos": "data/round_photos.json"};
+  var store = {}, status = {}, calcs = {}, subs = [];
+  var run = function () { subs.forEach(function (f) { try { f(); } catch (e) { console.error(e); } }); };
+  Object.keys(FILES).forEach(function (id) {
+    status[id] = 'loading';
+    fetch(FILES[id]).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (j) { store[id] = Array.isArray(j) ? j : (j.rows || j.data || j); status[id] = 'ok'; run(); })
+      .catch(function () { status[id] = 'error'; run(); });
+  });
+  return {
+    data: function (id) {
+      var c = calcs[id];
+      if (c) {
+        var ready = c.inputs.every(function (i) { return status[i] === 'ok'; });
+        return ready ? { status: 'ok', data: c.fn.apply(null, c.inputs.map(function (i) { return store[i]; })) } : { status: 'loading', data: [] };
+      }
+      return { status: status[id] || 'missing', data: store[id] || [] };
+    },
+    onData: function (fn) { subs.push(fn); try { fn(); } catch (e) { console.error(e); } },
+    calc: function (id, o) { calcs[id] = o; },
+    setLink: function (n) { try { history.replaceState(null, '', '#' + n); } catch (e) {} },
+    params: function () { return {}; }, setParams: function () {}, resetParams: function () {}, refresh: function () {}, colors: []
+  };
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+</head>
+<body>
+<div id="dash-root">
+<style>
+#dash-root { --dash-gutter: 0; }
+.nk { direction: rtl; text-align: right; font-family: "Noto Kufi Arabic","Tajawal","Segoe UI","Geeza Pro",var(--font-anthropic-sans),sans-serif; color: var(--color-fg); --nk-green:#1d3d2f; --nk-green2:#2c5a44; --nk-gold:#c39a52; --nk-gold-soft: color-mix(in srgb, #c39a52 18%, transparent); }
+.nk-serif { font-family: "Noto Naskh Arabic","Amiri","Geeza Pro",var(--font-anthropic-serif),serif; }
+.nk-wrap { max-width: 1120px; margin-inline: auto; padding: 0 16px 48px; }
+.nk-hero { position: relative; overflow: hidden; color: #f6f1e6; background: radial-gradient(120% 140% at 85% -10%, #3b6b52 0%, var(--nk-green) 45%, #12261d 100%); padding: 44px 16px 92px; }
+.nk-hero::before { content:""; position:absolute; inset:0; background-image: linear-gradient(180deg, rgba(8,24,17,.80) 0%, rgba(8,24,17,.72) 50%, rgba(8,24,17,.94) 100%), var(--hero-img, none); background-size: cover; background-position: center; }
+.nk-hero .nk-title, .nk-hero .nk-sub, .nk-hero .nk-take { text-shadow: 0 2px 14px rgba(0,0,0,.65), 0 1px 2px rgba(0,0,0,.5); }
+.nk-hero .nk-meta span { background: rgba(8,24,17,.7); }
+.nk-hero-card { display:inline-block; max-width: 100%; padding: 22px clamp(14px, 4vw, 40px) 24px; border-radius: 22px; background: rgba(8,24,17,.62); border: 1px solid rgba(195,154,82,.35); box-shadow: 0 20px 50px -20px rgba(0,0,0,.7); }
+.nk-hero .nk-title { color: #fff; font-weight: 800; text-shadow: 0 2px 14px rgba(0,0,0,.7); }
+.nk-hero .nk-sub, .nk-hero .nk-take { color: #fff; opacity: 1; }
+.nk-hero::after { content:""; position:absolute; inset:0; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.04) 1px, transparent 0); background-size: 22px 22px; pointer-events:none; }
+.nk-hero-in { position: relative; z-index: 1; max-width: 1120px; margin-inline: auto; text-align: center; }
+.nk-basmala { opacity: .75; font-size: 15px; margin-bottom: 14px; }
+.nk-eyebrow { display:inline-block; font-size: 12px; letter-spacing: .02em; color: var(--nk-gold); border: 1px solid color-mix(in srgb, var(--nk-gold) 55%, transparent); padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
+.nk-title { font-size: clamp(17px, 4.4vw, 46px); line-height: 1.35; margin: 0; font-weight: 700; white-space: nowrap; }
+.nk-title span { color: #f6f1e6; }
+.nk-sub { margin: 10px 0 0; opacity: .85; font-size: 15px; }
+.nk-rule { width: 120px; height: 2px; background: var(--nk-gold); margin: 20px auto; border-radius: 2px; }
+.nk-meta { display:flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 14px; }
+.nk-meta span { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); padding: 6px 14px; border-radius: 999px; }
+.nk-take { max-width: 720px; margin: 18px auto 0; font-size: 16px; line-height: 1.9; opacity: .95; }
+.nk-take b { color: var(--nk-gold); font-weight: 700; }
+.nk-stats { position: relative; z-index: 2; margin-top: -64px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+.nk-stat { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 16px; padding: 18px; box-shadow: 0 10px 30px -18px rgba(0,0,0,.45); position: relative; overflow: hidden; }
+.nk-stat::before { content:""; position:absolute; inset-inline-start:0; top:0; bottom:0; width:4px; background: var(--nk-gold); }
+.nk-stat-l { font-size: 13px; color: var(--color-fg-muted); }
+.nk-stat-v { font-size: 34px; line-height: 1.2; margin-top: 6px; font-variant-numeric: tabular-nums; direction: rtl; }
+.nk-stat-v .nk-u { font-size: 14px; color: var(--color-fg-muted); margin-inline-start: 4px; }
+.nk-stat-v .nk-p { font-size: 13px; color: var(--color-fg-muted); margin-inline-end: 4px; }
+.nk .nk-stat-v b { font-weight: 600; font-family: var(--font-anthropic-serif), serif; }
+.nk-tabs { position: sticky; top: 0; z-index: 5; display:flex; gap: 6px; overflow-x: auto; padding: 14px 0; margin: 18px 0 6px; background: var(--color-bg); scrollbar-width: none; }
+.nk-tab { flex: none; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg); padding: 9px 16px; border-radius: 999px; transition: all .2s; }
+.nk-tab:hover { border-color: var(--nk-gold); }
+.nk-tab[aria-selected="true"] { background: var(--nk-green); border-color: var(--nk-green); color: #f6f1e6; }
+.nk-page[hidden] { display:none; }
+.nk-h2 { font-size: 22px; margin: 22px 0 4px; font-weight: 700; display:flex; align-items:center; gap:10px; }
+.nk-h2::before { content:""; width: 10px; height: 10px; border-radius: 3px; background: var(--nk-gold); transform: rotate(45deg); }
+.nk-lead { color: var(--color-fg-muted); font-size: 14px; margin: 0 0 14px; line-height: 1.8; }
+.nk-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 14px; }
+.nk-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 16px; padding: 20px; }
+.nk-card h3 { margin: 0 0 4px; font-size: 16px; font-weight: 700; }
+.nk-note { margin: 0 0 14px; font-size: 13px; color: var(--color-fg-muted); }
+.nk-split { display:flex; height: 44px; border-radius: 12px; overflow: hidden; }
+.nk-seg { display:flex; align-items:center; justify-content:center; color:#fff; font-size: 14px; font-weight: 700; transition: width 1s cubic-bezier(.2,.8,.2,1); min-width: 0; white-space: nowrap; }
+.nk-seg.a { background: var(--nk-green2); } .nk-seg.b { background: var(--nk-gold); }
+.nk-legend { display:flex; justify-content: space-between; gap: 10px; margin-top: 12px; font-size: 13px; flex-wrap: wrap; }
+.nk-legend i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-inline-end:6px; vertical-align: middle; }
+.nk-legend b { font-variant-numeric: tabular-nums; }
+.nk-bars { display:grid; gap: 14px; }
+.nk-bar-row { display:grid; gap: 6px; }
+.nk-bar-top { display:flex; justify-content: space-between; font-size: 13px; gap: 8px; }
+.nk-bar-top b { font-variant-numeric: tabular-nums; font-size: 15px; }
+.nk-track { height: 14px; border-radius: 99px; background: color-mix(in srgb, var(--color-fg) 7%, transparent); overflow: hidden; }
+.nk-fill { height: 100%; border-radius: 99px; background: linear-gradient(270deg, var(--nk-green2), var(--nk-gold)); width: 0; transition: width 1.1s cubic-bezier(.2,.8,.2,1); }
+.nk-struct { display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align:center; }
+.nk-struct div { border-radius: 14px; padding: 16px 6px; background: var(--nk-gold-soft); }
+.nk-struct b { display:block; font-size: 32px; font-family: var(--font-anthropic-serif), serif; font-weight: 500; color: var(--nk-gold); }
+.nk-struct2 { grid-template-columns: repeat(2, 1fr); }
+.nk-struct span { font-size: 13px; color: var(--color-fg-muted); }
+.nk-chips { display:flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.nk-chip { font: inherit; font-size: 13px; cursor:pointer; border: 1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg); padding: 8px 14px; border-radius: 12px; text-align: right; }
+.nk-chip small { display:block; color: var(--color-fg-muted); font-size: 11px; }
+.nk-chip[aria-pressed="true"] { border-color: var(--nk-gold); background: var(--nk-gold-soft); }
+.nk-podium { display:grid; grid-template-columns: 1fr 1.15fr 1fr; align-items: end; gap: 10px; min-height: 260px; }
+.nk-pod { text-align:center; }
+.nk-pod-name { font-weight: 700; font-size: 15px; margin-bottom: 8px; min-height: 2.6em; display:flex; align-items:flex-end; justify-content:center; line-height:1.3; }
+.nk-pod-block { border-radius: 14px 14px 6px 6px; color: #fff; display:flex; flex-direction: column; align-items:center; justify-content:flex-start; padding-top: 14px; font-family: var(--font-anthropic-serif), serif; }
+.nk-pod-block b { font-size: 34px; font-weight: 500; line-height: 1; }
+.nk-pod-block span { font-size: 12px; font-family: inherit; opacity: .9; margin-top: 4px; }
+.nk-pod.p1 .nk-pod-block { height: 170px; background: linear-gradient(180deg, #d8b46a, #a77c34); }
+.nk-pod.p2 .nk-pod-block { height: 125px; background: linear-gradient(180deg, #9aa7a1, #6c7a74); }
+.nk-pod.p3 .nk-pod-block { height: 95px; background: linear-gradient(180deg, #b98a62, #8a5f3d); }
+.nk-pod.p1 .nk-pod-name::before { content: "★"; color: var(--nk-gold); margin-inline-end: 6px; }
+.nk-rest { margin-top: 14px; display:grid; gap: 8px; }
+.nk-rest-row { display:flex; align-items:center; gap: 12px; padding: 10px 14px; border-radius: 12px; background: color-mix(in srgb, var(--color-fg) 4%, transparent); }
+.nk-medal { flex:none; width: 30px; height: 30px; border-radius: 50%; display:inline-flex; align-items:center; justify-content:center; font-size: 13px; font-weight: 700; background: color-mix(in srgb, var(--color-fg) 9%, transparent); font-variant-numeric: tabular-nums; }
+.nk-medal.m1 { background:#c9a35b; color:#fff; } .nk-medal.m2 { background:#8c9993; color:#fff; } .nk-medal.m3 { background:#a8744c; color:#fff; }
+.nk-tools { display:flex; gap: 8px; flex-wrap: wrap; align-items:center; margin-bottom: 12px; }
+.nk-input { font: inherit; font-size: 14px; flex: 1 1 220px; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--color-border-line); background: var(--color-bg); color: var(--color-fg); }
+.nk-input:focus { outline: 2px solid var(--nk-gold); outline-offset: 1px; }
+.nk-clear { font: inherit; font-size: 13px; cursor:pointer; border: 1px solid var(--nk-gold); background: var(--nk-gold-soft); color: var(--color-fg); padding: 8px 12px; border-radius: 10px; }
+.nk-tablebox { max-height: 440px; overflow: auto; border-radius: 12px; border: 1px solid var(--color-border-line); }
+.nk-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.nk-table th { position: sticky; top: 0; background: var(--color-panel); text-align: right; font-weight: 600; color: var(--color-fg-muted); font-size: 12px; padding: 10px 12px; border-bottom: 1px solid var(--color-border-line); }
+.nk-table th button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+.nk-table td { padding: 10px 12px; border-bottom: 1px solid var(--color-border-line); font-variant-numeric: tabular-nums; }
+.nk-table tbody tr { cursor: pointer; transition: background .15s; }
+.nk-table tbody tr:hover { background: var(--nk-gold-soft); }
+.nk-table tr.is-on { background: var(--nk-gold-soft); }
+.nk-ptcell { display:flex; align-items:center; gap: 8px; }
+.nk-ptbar { height: 8px; border-radius: 99px; background: var(--nk-gold); }
+.nk-person { margin-top: 12px; padding: 14px; border-radius: 12px; border: 1px dashed var(--nk-gold); font-size: 14px; line-height: 1.9; }
+.nk-person[hidden] { display:none; }
+.nk-timeline { position: relative; display:grid; gap: 14px; padding-inline-start: 26px; }
+.nk-timeline::before { content:""; position:absolute; inset-inline-start: 8px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--nk-gold), var(--nk-green2)); }
+.nk-tl { position: relative; }
+.nk-tl::before { content:""; position:absolute; inset-inline-start: -24px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--color-panel); border: 3px solid var(--nk-gold); }
+.nk-tl small { color: var(--nk-gold); font-weight: 700; font-size: 13px; }
+.nk-tl div { font-size: 15px; font-weight: 600; }
+.nk-comm { display:grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.nk-comm-card { border-radius: 14px; padding: 16px; background: color-mix(in srgb, var(--color-fg) 4%, transparent); border-top: 3px solid var(--nk-green2); }
+.nk-comm-card h4 { margin: 0 0 10px; font-size: 15px; display:flex; justify-content: space-between; gap: 8px; }
+.nk-comm-card h4 em { font-style: normal; font-size: 12px; color: var(--color-fg-muted); font-weight: 500; }
+.nk-names { display:flex; flex-wrap: wrap; gap: 6px; }
+.nk-names span { font-size: 13px; padding: 5px 10px; border-radius: 999px; background: var(--color-panel); border: 1px solid var(--color-border-line); }
+.nk-story { display:grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.nk-step { border-radius: 14px; padding: 16px; background: var(--color-panel); border: 1px solid var(--color-border-line); }
+.nk-step small { display:inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; margin-bottom: 8px; }
+.nk-step.c small { background: color-mix(in srgb, var(--color-bad) 15%, transparent); color: var(--color-bad); }
+.nk-step.r small { background: var(--nk-gold-soft); color: var(--nk-gold); }
+.nk-step.o small { background: color-mix(in srgb, var(--color-ok) 15%, transparent); color: var(--color-ok); }
+.nk-step p, .nk-step ul { margin: 0; font-size: 14px; line-height: 1.9; }
+.nk-step ul { padding-inline-start: 18px; }
+.nk-spons { display:grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+.nk-sp { display:flex; gap: 12px; align-items:flex-start; padding: 14px; border-radius: 14px; background: var(--color-panel); border: 1px solid var(--color-border-line); transition: transform .2s, border-color .2s; }
+.nk-sp:hover { transform: translateY(-2px); border-color: var(--nk-gold); }
+.nk-sp-ic { flex:none; width: 40px; height: 40px; border-radius: 12px; display:flex; align-items:center; justify-content:center; background: var(--nk-green); color: var(--nk-gold); font-weight: 700; font-size: 16px; }
+.nk-sp b { display:block; font-size: 14px; line-height: 1.6; }
+.nk-sp small { color: var(--color-fg-muted); font-size: 12px; line-height: 1.6; }
+.nk-grouph { font-size: 15px; margin: 18px 0 10px; color: var(--nk-gold); font-weight: 700; }
+.nk-prize { display:grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.nk-prize-card { border-radius: 18px; padding: 22px; color: #f6f1e6; background: linear-gradient(135deg, var(--nk-green), #12261d); position: relative; overflow:hidden; }
+.nk-prize-card::after { content:"✦"; position:absolute; inset-inline-end: 16px; top: 8px; font-size: 54px; color: var(--nk-gold); opacity: .25; }
+.nk-prize-card small { opacity: .8; font-size: 13px; }
+.nk-prize-card .nk-big { font-family: var(--font-anthropic-serif), serif; font-size: 40px; margin: 6px 0; color: var(--nk-gold); font-variant-numeric: tabular-nums; }
+.nk-prize-card .nk-big span { font-size: 15px; color: #f6f1e6; margin-inline-start: 6px; }
+.nk-recs { display:grid; gap: 10px; counter-reset: r; }
+.nk-rec { counter-increment: r; display:flex; gap: 12px; align-items:flex-start; padding: 14px; border-radius: 14px; background: var(--color-panel); border: 1px solid var(--color-border-line); font-size: 14px; line-height: 1.8; }
+.nk-rec::before { content: counter(r); flex:none; width: 28px; height: 28px; border-radius: 8px; background: var(--nk-gold-soft); color: var(--nk-gold); display:flex; align-items:center; justify-content:center; font-weight: 700; }
+.nk-next { margin-top: 18px; border-radius: 20px; padding: 26px 20px; text-align:center; background: radial-gradient(120% 140% at 15% 0%, #3b6b52 0%, var(--nk-green) 50%, #12261d 100%); color: #f6f1e6; }
+.nk-next small { color: var(--nk-gold); font-size: 13px; }
+.nk-next .nk-date { font-size: clamp(24px, 4vw, 34px); margin: 8px 0 4px; }
+.nk-next p { margin: 10px auto 0; max-width: 640px; font-size: 14px; line-height: 1.9; opacity: .9; }
+.nk-foot { margin-top: 28px; font-size: 12px; color: var(--color-fg-muted); text-align: center; line-height: 1.8; }
+.nk-podwrap { display:grid; gap: 18px; grid-template-columns: 1fr; }
+.nk-champ { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 16 / 10; max-height: 560px; width: 100%; background: linear-gradient(160deg, var(--nk-green2), #12261d); border: 2px solid var(--nk-gold); box-shadow: 0 14px 30px -18px rgba(0,0,0,.6); }
+.nk-champ img { width: 100%; height: 100%; object-fit: cover; display:block; cursor: zoom-in; }
+.nk-champ-ph { position:absolute; inset:0; display:flex; flex-direction: column; align-items:center; justify-content:center; gap: 8px; color: rgba(246,241,230,.75); text-align:center; padding: 16px; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.08) 1px, transparent 0); background-size: 18px 18px; }
+.nk-champ-ph svg { width: 54px; height: 54px; color: var(--nk-gold); opacity: .8; }
+.nk-champ-ph small { font-size: 12px; }
+.nk-champ-cap { position:absolute; inset-inline: 0; bottom: 0; padding: 30px 14px 12px; background: linear-gradient(transparent, rgba(10,22,16,.88)); color: #f6f1e6; }
+.nk-champ-cap small { color: var(--nk-gold); font-size: 12px; display:block; }
+.nk-champ-cap b { font-size: 17px; }
+.nk-crown { position:absolute; top: 10px; inset-inline-start: 10px; z-index: 2; background: var(--nk-gold); color: #1d3d2f; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+.nk-subh { font-size: 17px; margin: 22px 0 12px; color: var(--nk-gold); }
+.nk-people { display:grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+.nk-pc { border-radius: 18px; overflow: hidden; background: var(--color-panel); border: 1px solid var(--color-border-line); transition: transform .25s, box-shadow .25s; }
+.nk-pc:hover { transform: translateY(-3px); box-shadow: 0 16px 30px -20px rgba(0,0,0,.6); }
+.nk-pc.gold { border: 2px solid var(--nk-gold); }
+.nk-pc-ph { position: relative; aspect-ratio: 4 / 3; background: linear-gradient(160deg, var(--nk-green2), #12261d); }
+.nk-pc-ph img { width:100%; height:100%; object-fit: cover; display:block; cursor: zoom-in; }
+.nk-pc-ph .nk-champ-ph small { font-size: 11px; }
+.nk-pc-ph .nk-champ-ph svg { width: 40px; height: 40px; }
+.nk-pc-badge { position:absolute; top: 10px; inset-inline-start: 10px; background: var(--nk-gold); color: #1d3d2f; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; z-index: 1; }
+.nk-pc-b { padding: 12px 14px 14px; }
+.nk-pc-b h4 { margin: 0 0 8px; font-size: 15px; }
+.nk-ach { display:grid; gap: 6px; }
+.nk-ach div { display:flex; align-items:center; gap: 8px; font-size: 12.5px; line-height: 1.5; }
+.nk-ach .nk-medal { width: 24px; height: 24px; font-size: 11px; }
+.nk-gallery { display:grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); grid-auto-flow: dense; }
+.nk-ph { margin: 0; position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; background: var(--color-panel); border: 1px solid var(--color-border-line); cursor: pointer; transition: transform .25s, box-shadow .25s; }
+.nk-ph:hover { transform: translateY(-3px); box-shadow: 0 14px 28px -18px rgba(0,0,0,.55); }
+.nk-ph.wide { grid-column: span 2; aspect-ratio: 16 / 9; }
+.nk-pod.on .nk-pod-name, .nk-rest-row.on { color: var(--nk-gold); }
+.nk-rest-row.on { outline: 1.5px solid var(--nk-gold); }
+.nk-ach div { cursor: pointer; border-radius: 8px; padding: 2px 4px; }
+.nk-ach div:hover, .nk-ach div.on { background: var(--nk-gold-soft); }
+.nk-champ-ph.none small { font-size: 13px; }
+@media (max-width: 560px) { .nk-ph.wide { grid-column: auto; aspect-ratio: 4 / 3; } }
+.nk-ph img { width:100%; height:100%; object-fit: cover; display:block; transition: transform .5s; }
+.nk-ph:hover img { transform: scale(1.04); }
+.nk-ph .nk-empty { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap: 6px; color: var(--color-fg-muted); font-size: 12px; background: repeating-linear-gradient(45deg, transparent 0 10px, color-mix(in srgb, var(--color-fg) 3%, transparent) 10px 20px); }
+.nk-ph .nk-empty svg { width: 34px; height: 34px; color: var(--nk-gold); }
+.nk-ph figcaption { position:absolute; inset-inline:0; bottom:0; padding: 26px 12px 10px; font-size: 13px; color: #f6f1e6; background: linear-gradient(transparent, rgba(10,22,16,.85)); }
+.nk-filters { display:flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.nk-lb { border: 0; padding: 0; background: transparent; max-width: min(94vw, 1100px); max-height: 92vh; }
+.nk-lb::backdrop { background: rgba(8,16,12,.86); }
+.nk-lb img { max-width: 100%; max-height: 82vh; display:block; border-radius: 12px; margin-inline: auto; }
+.nk-lb p { color: #f6f1e6; text-align:center; margin: 10px 0 0; font-size: 14px; direction: rtl; }
+.nk-lb-nav { position:absolute; top: 45%; font: inherit; font-size: 30px; line-height: 1; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(0,0,0,.5); color:#fff; cursor:pointer; z-index: 2; }
+.nk-lb-nav.prev { right: 8px; } .nk-lb-nav.next { left: 8px; }
+.nk-lb-x { position: absolute; top: 6px; inset-inline-end: 6px; font: inherit; background: rgba(0,0,0,.5); color: #fff; border: 0; border-radius: 999px; width: 34px; height: 34px; cursor: pointer; }
+.nk-brand { display:flex; justify-content:center; align-items:center; gap: 14px; margin-bottom: 14px; min-height: 76px; }
+.nk-brand span { width: 76px; height: 76px; border-radius: 50%; background: #fff; display:flex; align-items:center; justify-content:center; padding: 6px; box-shadow: 0 0 0 3px rgba(195,154,82,.55); }
+.nk-brand img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.nk-brand span.dark { background: #1e3b30; padding: 3px; border-radius: 18px; }
+.nk-brand span.dark img { width: 100%; height: 100%; object-fit: contain; border-radius: 14px; }
+.nk-tier { margin: 26px 0 12px; display:flex; align-items:center; gap: 12px; }
+.nk-tier h3 { margin:0; font-size: 18px; font-weight: 700; white-space: nowrap; }
+.nk-tier::after { content:""; flex:1; height: 1px; background: linear-gradient(90deg, transparent, var(--tc)); }
+.nk-tier i { width: 34px; height: 34px; border-radius: 50%; flex:none; background: var(--tg); box-shadow: inset 0 -3px 6px rgba(0,0,0,.25), 0 4px 10px -4px rgba(0,0,0,.4); display:flex; align-items:center; justify-content:center; color:#fff; font-style: normal; font-size: 15px; }
+.nk-tier small { color: var(--color-fg-muted); font-size: 13px; }
+.t-gold { --tc:#c9a35b; --tg: linear-gradient(145deg,#f1d48b,#b08130); }
+.t-silver { --tc:#9aa6a1; --tg: linear-gradient(145deg,#e6ebe9,#8a9792); }
+.t-bronze { --tc:#b07a50; --tg: linear-gradient(145deg,#e1ab7d,#8f5a34); }
+.t-main { --tc:#2c5a44; --tg: linear-gradient(145deg,#4f8a6c,#1d3d2f); }
+.t-strat { --tc:#2c5a44; --tg: linear-gradient(145deg,#3b6b52,#12261d); }
+.t-succ { --tc:#6c9a4a; --tg: linear-gradient(145deg,#9cc570,#4f7a33); }
+.t-org { --tc:#c39a52; --tg: linear-gradient(145deg,#2c5a44,#12261d); }
+.nk-sgrid { display:grid; gap: 14px; }
+.nk-sgrid.g-gold { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.nk-sgrid.g-silver { grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); }
+.nk-sgrid.g-wall { grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); }
+.nk-sc { position: relative; border-radius: 18px; padding: 18px 16px; background: var(--color-panel); border: 1.5px solid color-mix(in srgb, var(--tc) 55%, transparent); display:flex; flex-direction: column; align-items:center; text-align:center; gap: 10px; transition: transform .25s, box-shadow .25s; overflow: hidden; }
+.nk-sc:hover { transform: translateY(-3px); box-shadow: 0 16px 30px -20px var(--tc); }
+.nk-sc::before { content:""; position:absolute; inset: 0 0 auto 0; height: 4px; background: var(--tg); }
+.t-gold .nk-sc { background: linear-gradient(180deg, color-mix(in srgb, #c9a35b 12%, var(--color-panel)), var(--color-panel) 60%); }
+.nk-logo { width: 100%; height: 120px; border-radius: 12px; background: #fff; display:flex; align-items:center; justify-content:center; padding: 12px; }
+.g-wall .nk-logo { height: 96px; }
+.nk-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.nk-mono { width: 100%; height: 120px; border-radius: 12px; display:flex; align-items:center; justify-content:center; background: radial-gradient(120% 120% at 50% 0%, #2c5a44, #12261d); color: var(--nk-gold); position: relative; }
+.nk-mono::after { content:""; position:absolute; inset: 8px; border: 1px dashed rgba(195,154,82,.45); border-radius: 8px; }
+.nk-mono { flex-direction: column; gap: 6px; padding: 14px 18px; height: auto; min-height: 120px; }
+.nk-mono small { font-size: 12px; color: rgba(246,241,230,.8); position: relative; z-index: 1; }
+.nk-mono b { font-size: 17px; line-height: 1.6; color: #f6f1e6; font-weight: 700; position: relative; z-index: 1; }
+.t-gold .nk-mono b { font-size: 18px; color: #f3d98f; }
+.nk-sc.solo { padding-bottom: 16px; }
+.nk-sc small.pre { font-size: 12px; color: var(--color-fg-muted); }
+.nk-sc .nm { font-size: 15px; font-weight: 700; line-height: 1.6; }
+.t-gold .nk-sc .nm { font-size: 16px; }
+.nk-sc .rl { font-size: 12px; color: var(--nk-gold); }
+.nk-badge { position:absolute; top: 12px; inset-inline-end: 12px; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; color: #fff; background: var(--tg); z-index: 1; }
+
+/* ===== توسيط ===== */
+.nk-page { text-align: center; }
+.nk-page .nk-h2 { justify-content: center; }
+.nk-page .nk-h2::after { content:""; width: 10px; height: 10px; border-radius: 3px; background: var(--nk-gold); transform: rotate(45deg); }
+.nk-page .nk-lead { margin-inline: auto; max-width: 760px; }
+.nk-page .nk-card h3, .nk-page .nk-note { text-align: center; }
+.nk-legend { justify-content: center; gap: 18px; }
+.nk-chips, .nk-filters, .nk-tools { justify-content: center; }
+.nk-tools .nk-input { max-width: 420px; text-align: center; }
+.nk-rest-row { justify-content: center; }
+.nk-rest-row small { margin-inline-start: 6px !important; }
+.nk-timeline { padding-inline-start: 0; justify-items: center; }
+.nk-timeline::before { display: none; }
+.nk-tl { text-align: center; padding-top: 18px; }
+.nk-tl::before { inset-inline-start: 50%; transform: translateX(50%); top: 0; }
+.nk-comm-card { text-align: center; }
+.nk-comm-card h4 { flex-direction: column; align-items: center; gap: 2px; }
+.nk-names { justify-content: center; }
+.nk-step { text-align: center; }
+.nk-step ul { list-style: none; padding: 0; }
+.nk-pc-b { text-align: center; }
+.nk-ach div { justify-content: center; }
+.nk-tier { justify-content: center; }
+.nk-tier::before { content:""; flex:1; height: 1px; background: linear-gradient(270deg, transparent, var(--tc)); order: -1; }
+.nk-rec { flex-direction: column; align-items: center; text-align: center; }
+.nk-prize-card { text-align: center; }
+.nk-sp, .nk-sc { text-align: center; }
+.nk-tabs { justify-content: safe center; }
+.nk-sgrid, .nk-sgrid.g-gold, .nk-sgrid.g-silver, .nk-sgrid.g-wall { display: flex; flex-wrap: wrap; justify-content: center; }
+.nk-sgrid.g-gold > .nk-sc { flex: 0 1 250px; }
+.nk-sgrid.g-silver > .nk-sc { flex: 0 1 230px; }
+.nk-sgrid.g-wall > .nk-sc { flex: 0 1 185px; }
+.nk-brand, .nk-logo { justify-content: center; }
+.nk-sc .nm, .nk-mono b { white-space: pre-line; }
+.nk-sc .nk-badge { position: static; align-self: center; margin: 0 auto 2px; }
+
+@media (max-width: 640px) { .nk-tabs { justify-content: flex-start; } }
+
+/* ===== جوال ===== */
+.nk { overflow-x: clip; }
+.nk img { max-width: 100%; }
+@media (max-width: 640px) {
+  .nk-wrap { padding: 0 12px 36px; }
+  .nk-hero { padding: 26px 10px 74px; }
+  .nk-hero-card { padding: 16px 12px 18px; border-radius: 16px; }
+  .nk-title { font-size: clamp(14px, 4.7vw, 30px); }
+  .nk-sub { font-size: 13px; }
+  .nk-rule { margin: 14px auto; width: 80px; }
+  .nk-meta { gap: 6px; font-size: 12px; }
+  .nk-meta span { padding: 5px 10px; }
+  .nk-take { font-size: 14px; line-height: 1.8; margin-top: 12px; }
+  .nk-brand { min-height: 60px; gap: 10px; margin-bottom: 10px; }
+  .nk-brand span { width: 60px; height: 60px; }
+  .nk-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: -56px; }
+  .nk-stat { padding: 12px; border-radius: 12px; }
+  .nk-stat-l { font-size: 11.5px; }
+  .nk-stat-v { font-size: 24px; }
+  .nk-stat-v .nk-u, .nk-stat-v .nk-p { font-size: 11px; }
+  .nk-tabs { padding: 10px 0; margin: 12px -12px 4px; padding-inline: 12px; gap: 6px; }
+  .nk-tab { font-size: 13px; padding: 8px 12px; }
+  .nk-h2 { font-size: 18px; margin-top: 18px; }
+  .nk-lead { font-size: 13px; }
+  .nk-card { padding: 14px; border-radius: 14px; }
+  .nk-grid { gap: 10px; }
+  .nk-struct b { font-size: 26px; }
+  .nk-struct span { font-size: 11.5px; }
+  .nk-struct div { padding: 12px 4px; }
+  .nk-chips, .nk-filters { flex-wrap: nowrap; overflow-x: auto; margin-inline: -12px; padding-inline: 12px; scrollbar-width: none; }
+  .nk-chip { flex: none; }
+  .nk-chips, .nk-filters { justify-content: flex-start; }
+  .nk-podium { gap: 6px; min-height: 200px; }
+  .nk-pod-name { font-size: 12px; }
+  .nk-pod-block b { font-size: 24px; }
+  .nk-pod-block span { font-size: 10.5px; }
+  .nk-pod.p1 .nk-pod-block { height: 130px; } .nk-pod.p2 .nk-pod-block { height: 98px; } .nk-pod.p3 .nk-pod-block { height: 74px; }
+  .nk-rest-row { padding: 8px 10px; font-size: 13px; }
+  .nk-people { grid-template-columns: 1fr; gap: 10px; }
+  .nk-pc-ph { aspect-ratio: 16 / 10; }
+  .nk-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .nk-ph { border-radius: 10px; }
+  .nk-ph.wide { grid-column: span 2; aspect-ratio: 16 / 9; }
+  .nk-ph figcaption { font-size: 11px; padding: 18px 8px 6px; }
+  .nk-sgrid.g-gold, .nk-sgrid.g-silver, .nk-sgrid.g-wall { gap: 8px; }
+  .nk-sgrid > .nk-sc, .nk-sgrid.g-gold > .nk-sc, .nk-sgrid.g-silver > .nk-sc, .nk-sgrid.g-wall > .nk-sc { flex: 0 1 calc(50% - 4px); }
+  .nk-sc { padding: 12px 10px; border-radius: 14px; }
+  .nk-logo, .g-wall .nk-logo { height: 80px; padding: 8px; }
+  .nk-mono { min-height: 96px; padding: 10px; }
+  .nk-mono b { font-size: 14px !important; }
+  .nk-sc .nm { font-size: 12.5px; }
+  .nk-badge { font-size: 10px; }
+  .nk-tier h3 { font-size: 16px; }
+  .nk-prize-card { padding: 16px; }
+  .nk-prize-card .nk-big { font-size: 30px; }
+  .nk-rec { padding: 12px; font-size: 13px; }
+  .nk-next { padding: 20px 14px; }
+  .nk-comm { grid-template-columns: 1fr; }
+  .nk-story { grid-template-columns: 1fr; }
+  .nk-lb { max-width: 100vw; }
+  .nk-lb img { max-height: 76vh; border-radius: 6px; }
+  .nk-lb-nav { width: 36px; height: 36px; font-size: 24px; top: auto; bottom: -46px; }
+  .nk-lb-nav.prev { right: 30%; } .nk-lb-nav.next { left: 30%; }
+  .nk-lb p { margin-top: 54px; font-size: 13px; }
+}
+@media (max-width: 380px) {
+  .nk-stat-v { font-size: 21px; }
+  .nk-sgrid.g-gold > .nk-sc, .nk-sgrid.g-silver > .nk-sc { flex-basis: 100%; }
+}
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+@media (prefers-reduced-motion: no-preference) {
+  .nk-anim { animation: nkUp var(--cds-dur-slow) var(--cds-ease-out) both; }
+  .nk-pod-block { animation: nkGrow .9s cubic-bezier(.2,.8,.2,1) both; transform-origin: bottom; }
+  @keyframes nkUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes nkGrow { from { transform: scaleY(.1); opacity: .3; } to { transform: none; opacity: 1; } }
+}
+@media (max-width: 520px) { .nk-podium { min-height: 220px; } .nk-pod.p1 .nk-pod-block { height: 140px; } .nk-pod.p2 .nk-pod-block { height: 105px; } .nk-pod.p3 .nk-pod-block { height: 80px; } .nk-pod-name { font-size: 13px; } }
+</style>
+
+<div class="nk">
+  <header class="nk-hero" id="top">
+    <div class="nk-hero-in">
+      <div class="nk-brand" id="brand" data-source="brand"></div>
+      <div class="nk-hero-card">
+      <h1 class="nk-title nk-serif">ملتقى نخبة أهل الحلال <span>للأغنام النجدية</span></h1>
+      <p class="nk-sub">بمحافظتي حوطة بني تميم والحريق والمراكز التابعة لهما</p>
+      <div class="nk-rule"></div>
+      <div class="nk-meta">
+        <span data-source="editions" data-field="date_label" data-where="key=current" class="dash-skeleton">—</span>
+        <span data-source="editions" data-field="place" data-where="key=current" class="dash-skeleton">—</span>
+      </div>
+      <p class="nk-take">استقطب الملتقى أكثر من <b data-source="kpis" data-field="value" data-where="key=attendance">—</b> شخصًا، وبلغت قيمة المبيعات <b data-source="kpis" data-field="value" data-where="key=sales">—</b> ريال، وتنافس <b data-source="kpis" data-field="value" data-where="key=total_competitors">—</b> مشاركًا في <b data-source="kpis" data-field="value" data-where="key=rounds">—</b> أشواط</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="nk-wrap">
+    <section class="nk-stats" id="stats">
+      <div class="nk-stat nk-anim"><div class="nk-stat-l">الحضور</div><div class="nk-stat-v"><span class="nk-p">أكثر من</span><b class="dash-skeleton" data-source="kpis" data-field="value" data-where="key=attendance">—</b><span class="nk-u">شخص</span></div></div>
+      <div class="nk-stat nk-anim"><div class="nk-stat-l">قيمة جميع المبيعات</div><div class="nk-stat-v"><b class="dash-skeleton" data-source="kpis" data-field="value" data-where="key=sales">—</b><span class="nk-u">ريال</span></div></div>
+      <div class="nk-stat nk-anim"><div class="nk-stat-l">المشاركون في المسابقة</div><div class="nk-stat-v"><b class="dash-skeleton" data-source="kpis" data-field="value" data-where="key=total_competitors">—</b><span class="nk-u">مشاركًا</span></div></div>
+      <div class="nk-stat nk-anim"><div class="nk-stat-l">رؤوس الأغنام المعروضة</div><div class="nk-stat-v"><b class="dash-skeleton" data-source="nk_mix" data-field="value" data-where="key=heads_total">—</b><span class="nk-u">رأس</span></div></div>
+    </section>
+
+    <nav class="nk-tabs" role="tablist" aria-label="أقسام التقرير">
+      <button class="nk-tab" role="tab" data-tab="overview" aria-selected="true">نظرة عامة</button>
+      <button class="nk-tab" role="tab" data-tab="results" aria-selected="false">نتائج المسابقة</button>
+      <button class="nk-tab" role="tab" data-tab="org" aria-selected="false">التنظيم والبرنامج</button>
+      <button class="nk-tab" role="tab" data-tab="partners" aria-selected="false">شركاء النجاح</button>
+      <button class="nk-tab" role="tab" data-tab="outcomes" aria-selected="false">المخرجات والقادم</button>
+      <button class="nk-tab" role="tab" data-tab="gallery" aria-selected="false">معرض الصور</button>
+    </nav>
+
+    <!-- نظرة عامة -->
+    <section class="nk-page" id="overview">
+      <h2 class="nk-h2">مؤشرات الملتقى</h2>
+      <p class="nk-lead">أُقيم الملتقى ليجمع مربي الأغنام النجدية والمهتمين بها في لقاء يجمع العناية بالموروث ودعم نشاط المربين، ويتيح عرض الإنتاج والتنافس وتبادل الخبرات والبيع.</p>
+      <div class="nk-grid">
+        <div class="nk-card" id="card-competitors">
+          <h3>تركيبة المتسابقين</h3>
+          <p class="nk-note">أعضاء القروب مقابل الضيوف المشاركين في المسابقة فقط</p>
+          <div class="nk-split" data-source="nk_mix">
+            <div class="nk-seg a" id="seg-a"></div><div class="nk-seg b" id="seg-b"></div>
+          </div>
+          <div class="nk-legend">
+            <span><i style="background:var(--nk-green2)"></i>أعضاء القروب: <b data-source="kpis" data-field="value" data-where="key=member_competitors">—</b> (<b data-source="nk_mix" data-field="value" data-where="key=member_share">—</b>)</span>
+            <span><i style="background:var(--nk-gold)"></i>الضيوف: <b data-source="kpis" data-field="value" data-where="key=guest_competitors">—</b> (<b data-source="nk_mix" data-field="value" data-where="key=guest_share">—</b>)</span>
+          </div>
+        </div>
+        <div class="nk-card" id="card-heads">
+          <h3>الأغنام المشاركة</h3>
+          <p class="nk-note">عدد الرؤوس في المسابقة والعروض الخارجية</p>
+          <div class="nk-struct nk-struct2">
+            <div><b data-source="kpis" data-field="value" data-where="key=member_heads">—</b><span>رأسًا في المسابقة من أعضاء القروب</span></div>
+            <div><b data-source="kpis" data-field="value" data-where="key=external_heads">—</b><span>رأسًا في العروض الخارجية</span></div>
+          </div></div>
+        </div>
+        <div class="nk-card" id="card-structure">
+          <h3>هيكل المسابقة</h3>
+          <p class="nk-note">أعضاء قروب نخبة أهل الحلال: <b data-source="kpis" data-field="value" data-where="key=members">—</b> عضوًا</p>
+          <div class="nk-struct">
+            <div><b data-source="kpis" data-field="value" data-where="key=rounds">—</b><span>أشواط</span></div>
+            <div><b data-source="kpis" data-field="value" data-where="key=places_per_round">—</b><span>مراكز لكل شوط</span></div>
+            <div><b data-source="kpis" data-field="value" data-where="key=committees">—</b><span>لجان عاملة</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- النتائج -->
+    <section class="nk-page" id="results" hidden>
+      <h2 class="nk-h2">نتائج المسابقة</h2>
+      <p class="nk-lead">اختر الشوط لعرض المراكز الخمسة.</p>
+      <div class="nk-chips" id="round-chips" data-source="results"></div>
+      <div class="nk-card" id="card-podium">
+        <h3 id="podium-title">—</h3>
+        <p class="nk-note">المراكز من الأول إلى الخامس</p>
+        <div class="nk-podwrap">
+          <div>
+            <div class="nk-podium" id="podium" data-source="results"></div>
+            <div class="nk-rest" id="podium-rest" data-source="results"></div>
+          </div>
+        </div>
+      </div>
+      <h2 class="nk-h2">المتوجون وإنجازاتهم</h2>
+      <p class="nk-lead">اضغط على أي مركز في البطاقة لعرض صورة تتويجه.</p>
+      <div class="nk-people" id="people" data-source="round_photos results"></div>
+    </section>
+
+    <!-- التنظيم -->
+    <section class="nk-page" id="org" hidden>
+      <h2 class="nk-h2">البرنامج الزمني</h2>
+      <div class="nk-card" id="card-program"><div class="nk-timeline" id="timeline" data-source="program"></div></div>
+      <h2 class="nk-h2">اللجان العاملة</h2>
+      <p class="nk-lead">تولت أكاديمية المسمى تنظيم الملتقى بإشراف شركة أبعاد المستقبل، وتوزعت أعمال التجهيز والتنظيم واستقبال الحلال والتحكيم على اللجان التالية.</p>
+      <div class="nk-comm" id="committees" data-source="committees"></div>
+      <h2 class="nk-h2">تحديات التنفيذ وكيف عولجت</h2>
+      <div class="nk-story" id="story">
+        <div class="nk-step c"><small>التحدي</small><p>طلبت الجهة المسؤولة تغيير موقع الملتقى أو تأجيله قبل موعده بوقت قصير، مما استلزم تجهيز مقر بديل وتحمّل أعمال وتكاليف مستجدة.</p></div>
+        <div class="nk-step r"><small>الاستجابة</small><ul><li>بادرت اللجنة المنظمة بتجهيز المقر البديل واستكمال متطلباته.</li><li>تكفّل رجال الأعمال الداعمون بما استجد من تكاليف.</li><li>أتاح رجل الأعمال فيصل بن ناصر الصويتي التميمي مزرعته لاستضافة الملتقى.</li></ul></div>
+        <div class="nk-step o"><small>النتيجة</small><p>أُقيم الملتقى في موعده ونُفذت المنافسات والعروض والبرنامج المصاحب، وأظهرت التجربة قدرة اللجنة والداعمين على التعاون والاستجابة للتحديات.</p></div>
+      </div>
+    </section>
+
+    <!-- الشركاء -->
+    <section class="nk-page" id="partners" hidden>
+      <h2 class="nk-h2">شركاء النجاح والداعمون</h2>
+      <div id="sponsors" data-source="sponsors"></div>
+    </section>
+
+    <!-- المخرجات -->
+    <section class="nk-page" id="outcomes" hidden>
+      <h2 class="nk-h2">جوائز الجمهور والهدايا</h2>
+      <div class="nk-prize">
+        <div class="nk-prize-card"><small>سحب للجمهور على فحل نجدي</small><div class="nk-big"><b data-source="prizes" data-field="value" data-where="key=draw">—</b><span>ريال</span></div><small>قيمة الفحل المسحوب عليه</small></div>
+        <div class="nk-prize-card"><small>جوائز شركة المتحدة للأعلاف</small><div class="nk-big"><b data-source="prizes" data-field="value" data-where="key=bags_total">—</b><span>كيسًا</span></div><small><b data-source="prizes" data-field="value" data-where="key=feed_prizes">—</b> جوائز، بواقع <b data-source="prizes" data-field="value" data-where="key=bags_each">—</b> أكياس لكل فائز</small></div>
+        <div class="nk-prize-card"><small>هدايا مجانية</small><div class="nk-big" style="font-size:22px;line-height:1.5">المتحدة للأعلاف<br>والطبيعة المتكاملة للصناعة</div><small>هدايا مقدمة للحضور</small></div>
+      </div>
+      <h2 class="nk-h2">توصيات مقترحة للمراجعة</h2>
+      <div class="nk-recs">
+        <div class="nk-rec">استكمال التنسيق المبكر مع الجهات ذات العلاقة وتثبيت الموقع والموعد قبل الإعلان.</div>
+        <div class="nk-rec">إعداد خطة بديلة للموقع والتجهيز، وتحديد المسؤوليات وآلية تغطية التكاليف الطارئة.</div>
+        <div class="nk-rec">توحيد تسجيل المشاركين وأعداد الأغنام والمبيعات والحضور، وتوثيق مساهمات شركاء النجاح.</div>
+        <div class="nk-rec">تعزيز التعاون مع مكتب الوزارة والداعمين لتطوير النسخ المقبلة وخدمة المربين.</div>
+      </div>
+      <div class="nk-next" id="next">
+        <small>الموعد القادم — إن شاء الله</small>
+        <div class="nk-date nk-serif" data-source="editions" data-field="date_label" data-where="key=next">—</div>
+        <div>الموافق <span data-source="editions" data-field="hijri" data-where="key=next">—</span></div>
+        <p>وتثمّن اللجنة المنظمة دعم الجهات المتعاونة ورجال الأعمال وشركاء النجاح، وجهود أعضاء اللجان والمشاركين، وتسأل الله أن يبارك في جهود الجميع وأن يديم على وطننا أمنه واستقراره.</p>
+      </div>
+    </section>
+
+    <!-- المعرض -->
+    <section class="nk-page" id="gallery" hidden>
+      <h2 class="nk-h2">معرض الصور</h2>
+      <p class="nk-lead">لقطات من الملتقى. اضغط على أي صورة لعرضها بالحجم الكامل.</p>
+      <div class="nk-filters" id="gal-filters"></div>
+      <div class="nk-gallery" id="gal" data-source="photos photos2 round_photos"></div>
+    </section>
+
+    <dialog class="nk-lb" id="lb"><button class="nk-lb-x" id="lb-x" aria-label="إغلاق">✕</button><button class="nk-lb-nav prev" id="lb-prev" aria-label="السابق">›</button><button class="nk-lb-nav next" id="lb-next" aria-label="التالي">‹</button><img id="lb-img" alt=""><p id="lb-cap"></p></dialog>
+
+    <div class="nk-foot">إعداد: اللجنة المنظمة</div>
+  </div>
+</div>
+
+<script>
+dash.calc('nk_mix', {
+  title: 'نسب المتسابقين وإجمالي الرؤوس',
+  description: 'حصة الأعضاء والضيوف من المتسابقين، ومجموع رؤوس المسابقة والعروض الخارجية.',
+  inputs: ['kpis'],
+  fn: (kpis) => {
+    const v = (k) => Number((kpis.find((r) => r.key === k) || {}).value || 0);
+    const total = v('member_competitors') + v('guest_competitors');
+    return [
+      { key: 'member_share', value: total ? v('member_competitors') / total : 0 },
+      { key: 'guest_share', value: total ? v('guest_competitors') / total : 0 },
+      { key: 'heads_total', value: v('member_heads') + v('external_heads') },
+    ];
+  },
+});
+</script>
+
+<script>
+(() => {
+  const F = d3.format(',');
+  const P = d3.format('.0%');
+  const placeName = ['', 'الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس'];
+  const state = { tab: 'overview', round: 1, q: '', person: null, sort: 'points', dir: -1, spq: '' };
+  window.nkState = state;
+
+  // tabs
+  const tabs = [...document.querySelectorAll('.nk-tab')];
+  const show = (id) => {
+    if (!document.getElementById(id)) return;
+    state.tab = id;
+    tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === id)));
+    document.querySelectorAll('.nk-page').forEach((p) => { p.hidden = p.id !== id; });
+    dash.setLink(id);
+  };
+  tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab)));
+  const named = location.hash.slice(1);
+  if (named && document.getElementById(named)) show(named);
+
+  // fill simple marks (key-based)
+  const fillMarks = (id, fmt) => {
+    const d = dash.data(id);
+    document.querySelectorAll(`[data-source="${id}"][data-where]`).forEach((el) => {
+      if (d.status !== 'ok') { if (d.status !== 'loading') el.classList.remove('dash-skeleton'); return; }
+      el.classList.remove('dash-skeleton');
+      const key = decodeURIComponent(el.dataset.where.split('=')[1]);
+      const row = d.data.find((r) => String(r.key) === key);
+      const val = row ? row[el.dataset.field] : null;
+      el.textContent = val == null || val === '' ? '—' : fmt(val, key);
+    });
+  };
+
+  const drawOverview = () => {
+    const mix = dash.data('nk_mix');
+    const k = dash.data('kpis');
+    if (mix.status === 'ok') {
+      const g = (key) => (mix.data.find((r) => r.key === key) || {}).value || 0;
+      const a = document.getElementById('seg-a'), b = document.getElementById('seg-b');
+      a.style.width = (g('member_share') * 100) + '%'; b.style.width = (g('guest_share') * 100) + '%';
+      a.textContent = P(g('member_share')); b.textContent = P(g('guest_share'));
+    }
+  };
+
+  // results
+  const chips = document.getElementById('round-chips');
+  const drawResults = () => {
+    const d = dash.data('results');
+    const pod = document.getElementById('podium'), rest = document.getElementById('podium-rest');
+    if (d.status !== 'ok') { chips.replaceChildren(); pod.replaceChildren(); rest.replaceChildren(); return; }
+    const rows = d.data.map((r) => ({ ...r, round: Number(r.round), place: Number(r.place) }));
+    const rounds = [...new Map(rows.map((r) => [r.round, r.round_name])).entries()].sort((x, y) => x[0] - y[0]);
+    chips.replaceChildren(...rounds.map(([n, name]) => {
+      const b = document.createElement('button');
+      b.className = 'nk-chip'; b.setAttribute('aria-pressed', String(n === state.round));
+      b.textContent = 'شوط ' + name;
+      b.addEventListener('click', () => { state.round = n; drawResults(); });
+      return b;
+    }));
+    const cur = rows.filter((r) => r.round === state.round).sort((a, b) => a.place - b.place);
+    document.getElementById('podium-title').textContent = cur[0] ? 'شوط ' + cur[0].round_name : '';
+    const order = [2, 1, 3];
+    pod.replaceChildren(...order.map((p) => {
+      const r = cur.find((x) => x.place === p);
+      const box = document.createElement('div'); box.className = 'nk-pod p' + p; box.dataset.place = p;
+      const nm = document.createElement('div'); nm.className = 'nk-pod-name';
+      const nmv = document.createElement('span'); nmv.textContent = r ? r.winner : '—';
+      if (r) { nmv.setAttribute('data-source', 'results'); nmv.setAttribute('data-field', 'winner'); nmv.setAttribute('data-where', 'round=' + r.round + '&place=' + r.place); }
+      nm.append(nmv);
+      const bl = document.createElement('div'); bl.className = 'nk-pod-block';
+      const bb = document.createElement('b'); bb.textContent = p;
+      const bs = document.createElement('span'); bs.textContent = 'المركز ' + placeName[p];
+      bl.append(bb, bs); box.append(nm, bl); return box;
+    }));
+    rest.replaceChildren(...cur.filter((r) => r.place > 3).map((r) => {
+      const row = document.createElement('div'); row.className = 'nk-rest-row'; row.dataset.place = r.place;
+      const m = document.createElement('span'); m.className = 'nk-medal'; m.textContent = r.place;
+      const t = document.createElement('span'); t.textContent = r.winner;
+      t.setAttribute('data-source', 'results'); t.setAttribute('data-field', 'winner'); t.setAttribute('data-where', 'round=' + r.round + '&place=' + r.place);
+      const l = document.createElement('small'); l.style.color = 'var(--color-fg-muted)'; l.style.marginInlineStart = 'auto'; l.textContent = 'المركز ' + placeName[r.place];
+      row.append(m, t, l); return row;
+    }));
+  };
+
+  const drawProgram = () => {
+    const d = dash.data('program');
+    const el = document.getElementById('timeline');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    el.replaceChildren(...[...d.data].sort((a, b) => a.order - b.order).map((r) => {
+      const it = document.createElement('div'); it.className = 'nk-tl';
+      const s = document.createElement('small'); s.textContent = r.time;
+      const t = document.createElement('div'); t.textContent = r.item;
+      it.append(s, t); return it;
+    }));
+  };
+
+  const drawCommittees = () => {
+    const d = dash.data('committees');
+    const el = document.getElementById('committees');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    const groups = d3.groups(d.data, (r) => r.committee);
+    el.replaceChildren(...groups.map(([name, members]) => {
+      const c = document.createElement('div'); c.className = 'nk-comm-card';
+      const h = document.createElement('h4'); const hn = document.createElement('span'); hn.textContent = name;
+      const em = document.createElement('em'); em.textContent = members.length + (members.length > 2 ? ' أعضاء' : members.length === 2 ? ' عضوان' : ' جهة');
+      h.append(hn, em);
+      const n = document.createElement('div'); n.className = 'nk-names';
+      members.forEach((m) => { const s = document.createElement('span'); s.textContent = m.member; n.append(s); });
+      c.append(h, n); return c;
+    }));
+  };
+
+  const TIERS = {
+    'راعي ذهبي': { cls: 't-gold', icon: '★', grid: 'g-gold', note: 'الرعاية الذهبية' },
+    'راعي فضي': { cls: 't-silver', icon: '★', grid: 'g-silver', note: 'الرعاية الفضية' },
+    'راعي برونزي': { cls: 't-bronze', icon: '★', grid: 'g-silver', note: 'الرعاية البرونزية' },
+    'شريك رئيسي': { cls: 't-main', icon: '◆', grid: 'g-wall', note: '' },
+    'شريك استراتيجي': { cls: 't-strat', icon: '◆', grid: 'g-wall', note: '' },
+    'شريك نجاح': { cls: 't-succ', icon: '◆', grid: 'g-wall', note: '' },
+  };
+  state.spt = 'all';
+  const drawBrand = () => {
+    const d = dash.data('brand');
+    const el = document.getElementById('brand');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    const hero = d.data.find((r) => r.key === 'hero');
+    const hsrc = hero ? safeSrc(hero.logo) : '';
+    document.getElementById('top').style.setProperty('--hero-img', hsrc ? 'url("' + hsrc + '")' : 'none');
+    el.replaceChildren(...['group', 'almsamma'].map((k) => d.data.find((r) => r.key === k)).filter((r) => r && safeSrc(r.logo)).map((r) => {
+      const s = document.createElement('span'); if (r.key === 'almsamma') s.className = 'dark';
+      const img = document.createElement('img'); img.src = safeSrc(r.logo); img.alt = r.name; s.append(img); return s;
+    }));
+  };
+  const drawSponsors = () => {
+    const d = dash.data('sponsors');
+    const el = document.getElementById('sponsors');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    const all = [...d.data].sort((a, b) => Number(a.order) - Number(b.order));
+    const q = state.spq.trim();
+    const rows = all.filter((r) => (state.spt === 'all' || r.tier === state.spt) && (!q || (r.prefix + ' ' + r.name + ' ' + (r.role || '')).includes(q)));
+    const out = [];
+    d3.groups(rows, (r) => r.tier).forEach(([tier, items]) => {
+      const T = TIERS[tier] || { cls: 't-main', icon: '◆', grid: 'g-wall', note: '' };
+      const wrap = document.createElement('section'); wrap.className = T.cls;
+      const h = document.createElement('div'); h.className = 'nk-tier';
+      const ic = document.createElement('i'); ic.textContent = T.icon;
+      const ht = document.createElement('h3'); ht.textContent = tier;
+      h.append(ic, ht);
+      const grid = document.createElement('div'); grid.className = 'nk-sgrid ' + T.grid;
+      items.forEach((r) => {
+        const c = document.createElement('div'); c.className = 'nk-sc';
+        if (T.note) { const bd = document.createElement('span'); bd.className = 'nk-badge'; bd.textContent = tier; c.append(bd); }
+        const src = safeSrc(r.logo);
+        if (src) {
+          const lg = document.createElement('div'); lg.className = 'nk-logo';
+          const img = document.createElement('img'); img.src = src; img.alt = r.name; img.loading = 'lazy';
+          lg.append(img); c.append(lg);
+        } else {
+          c.classList.add('solo');
+          const mono = document.createElement('div'); mono.className = 'nk-mono';
+          if (r.prefix) { const p = document.createElement('small'); p.textContent = r.prefix; mono.append(p); }
+          const b = document.createElement('b'); b.textContent = r.name; mono.append(b); c.append(mono);
+        }
+        if (src) { const nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = (r.prefix ? r.prefix + ' ' : '') + r.name; c.append(nm); }
+        grid.append(c);
+      });
+      wrap.append(h, grid); out.push(wrap);
+    });
+    el.replaceChildren(...out);
+  };
+
+  // photos
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const camIcon = () => {
+    const s = document.createElementNS(SVGNS, 'svg'); s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('fill', 'none'); s.setAttribute('stroke', 'currentColor'); s.setAttribute('stroke-width', '1.5');
+    const p1 = document.createElementNS(SVGNS, 'path'); p1.setAttribute('d', 'M4 8h3l2-3h6l2 3h3v11H4z'); p1.setAttribute('stroke-linejoin', 'round');
+    const c = document.createElementNS(SVGNS, 'circle'); c.setAttribute('cx', '12'); c.setAttribute('cy', '13'); c.setAttribute('r', '3.5');
+    s.append(p1, c); return s;
+  };
+  const safeSrc = (src) => typeof src === 'string' && /^data:image\//.test(src) ? src : '';
+  const lb = document.getElementById('lb');
+  const openLb = (src, cap) => {
+    if (!src || !lb.showModal) return;
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lb-cap').textContent = cap;
+    lb.showModal();
+  };
+  document.getElementById('lb-x').addEventListener('click', () => lb.close());
+  lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+  const roundPhoto = (round, place) => {
+    const d = dash.data('round_photos');
+    const row = d.status === 'ok' ? d.data.find((p) => Number(p.round) === Number(round) && Number(p.place) === Number(place)) : null;
+    return row ? safeSrc(row.src) : '';
+  };
+  const ordinal = ['', 'الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس'];
+  const resultOf = (round, place) => {
+    const r = dash.data('results');
+    if (r.status !== 'ok') return null;
+    return r.data.find((x) => Number(x.round) === Number(round) && Number(x.place) === Number(place)) || null;
+  };
+  state.gf = 'all';
+  let galList = [];
+  let galIdx = -1;
+  const showLbAt = (i) => {
+    if (!galList.length) return;
+    galIdx = (i + galList.length) % galList.length;
+    const it = galList[galIdx];
+    document.getElementById('lb-img').src = it.src;
+    document.getElementById('lb-cap').textContent = (it.cap ? it.cap + ' — ' : '') + (galIdx + 1) + ' / ' + galList.length;
+    if (!lb.open) lb.showModal();
+  };
+  document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); if (galIdx >= 0) showLbAt(galIdx - 1); });
+  document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); if (galIdx >= 0) showLbAt(galIdx + 1); });
+  lb.addEventListener('close', () => { galIdx = -1; });
+  lb.addEventListener('keydown', (e) => {
+    if (galIdx < 0) return;
+    if (e.key === 'ArrowLeft') showLbAt(galIdx + 1);
+    if (e.key === 'ArrowRight') showLbAt(galIdx - 1);
+  });
+  const galItems = () => {
+    const out = [];
+    ['photos', 'photos2'].forEach((id) => {
+      const d = dash.data(id);
+      if (d.status === 'ok') d.data.forEach((p) => out.push({ kind: p.kind, order: Number(p.order), cap: '', wide: !!p.wide, thumb: safeSrc(p.thumb) || safeSrc(p.src), src: safeSrc(p.src) }));
+    });
+    out.sort((a, b) => a.order - b.order);
+    const rp = dash.data('round_photos');
+    if (rp.status === 'ok') {
+      [...rp.data].sort((a, b) => a.round - b.round || a.place - b.place).forEach((p) => {
+        const r = resultOf(p.round, p.place);
+        out.push({ kind: 'crown', cap: 'تتويج المركز ' + placeName[Number(p.place)] + (r ? ' — شوط ' + r.round_name + ': ' + r.winner : ''), wide: false, thumb: safeSrc(p.thumb) || safeSrc(p.src), src: safeSrc(p.src) });
+      });
+    }
+    return out.filter((x) => x.src);
+  };
+  const GF = [['all', 'الكل'], ['gallery', 'لقطات الملتقى'], ['aerial', 'لقطات جوية'], ['crown', 'التتويج']];
+  const drawGallery = () => {
+    const el = document.getElementById('gal');
+    const fl = document.getElementById('gal-filters');
+    const all = galItems();
+    fl.replaceChildren(...GF.map(([k, label]) => {
+      const n = k === 'all' ? all.length : all.filter((x) => x.kind === k).length;
+      const b = document.createElement('button'); b.className = 'nk-chip';
+      b.textContent = label + ' (' + n + ')';
+      b.setAttribute('aria-pressed', String(state.gf === k));
+      b.addEventListener('click', () => { state.gf = k; drawGallery(); });
+      return b;
+    }));
+    galList = all.filter((x) => state.gf === 'all' || x.kind === state.gf);
+    el.replaceChildren(...galList.map((p, i) => {
+      const fig = document.createElement('figure'); fig.className = 'nk-ph' + (p.wide && state.gf !== 'crown' ? ' wide' : '');
+      const img = document.createElement('img'); img.src = p.thumb; img.alt = p.cap || 'لقطة من الملتقى'; img.loading = 'lazy'; img.decoding = 'async';
+      fig.append(img);
+      fig.addEventListener('click', () => showLbAt(i));
+      if (p.cap) { const fc = document.createElement('figcaption'); fc.textContent = p.cap; fig.append(fc); }
+      return fig;
+    }));
+  };
+
+  const drawPeople = () => {
+    const el = document.getElementById('people');
+    const res = dash.data('results');
+    if (res.status !== 'ok') { el.replaceChildren(); return; }
+    const by = d3.groups(res.data.map((r) => ({ ...r, round: Number(r.round), place: Number(r.place) })), (r) => r.winner)
+      .map(([name, list]) => ({ name, list: list.sort((a, b) => a.place - b.place || a.round - b.round), golds: list.filter((x) => x.place === 1).length, pts: d3.sum(list, (x) => 6 - x.place) }))
+      .sort((a, b) => b.golds - a.golds || b.pts - a.pts);
+    el.replaceChildren(...by.map((p) => {
+      const card = document.createElement('div'); card.className = 'nk-pc' + (p.golds ? ' gold' : '');
+      const ph = document.createElement('div'); ph.className = 'nk-pc-ph';
+      const badge = document.createElement('span'); badge.className = 'nk-pc-badge';
+      if (p.golds) { badge.textContent = '★ ' + (p.golds > 1 ? p.golds + ' بيارق' : 'بيرق'); } else { badge.hidden = true; }
+      const lines = [];
+      const show = (r) => {
+        const src = roundPhoto(r.round, r.place);
+        lines.forEach((l) => l.el.classList.toggle('on', l.r === r));
+        if (src) {
+          const img = document.createElement('img'); img.src = src; img.loading = 'lazy';
+          img.alt = p.name + ' — المركز ' + placeName[r.place] + '، شوط ' + r.round_name;
+          img.addEventListener('click', () => openLb(src, img.alt));
+          ph.replaceChildren(badge, img);
+        } else {
+          const e = document.createElement('div'); e.className = 'nk-champ-ph none';
+          const t = document.createElement('small'); t.textContent = 'لا تتوفر صورة لهذا المركز';
+          e.append(camIcon(), t); ph.replaceChildren(badge, e);
+        }
+      };
+      const body = document.createElement('div'); body.className = 'nk-pc-b';
+      const h = document.createElement('h4'); h.textContent = p.name;
+      const ach = document.createElement('div'); ach.className = 'nk-ach';
+      p.list.forEach((r) => {
+        const line = document.createElement('div');
+        const m = document.createElement('span'); m.className = 'nk-medal' + (r.place <= 3 ? ' m' + r.place : ''); m.textContent = r.place;
+        const t = document.createElement('span'); t.textContent = 'المركز ' + placeName[r.place] + ' — شوط ' + r.round_name;
+        line.append(m, t); ach.append(line);
+        line.addEventListener('click', () => show(r));
+        lines.push({ el: line, r });
+      });
+      const first = p.list.find((r) => roundPhoto(r.round, r.place)) || p.list[0];
+      show(first);
+      body.append(h, ach); card.append(ph, body); return card;
+    }));
+  };
+
+  dash.onData(() => {
+    drawPeople();
+    drawGallery();
+    fillMarks('kpis', (v) => F(Number(v)));
+    fillMarks('prizes', (v) => F(Number(v)));
+    fillMarks('editions', (v) => v);
+    fillMarks('nk_mix', (v, key) => key.endsWith('share') ? P(v) : F(v));
+    drawOverview();
+    drawResults();
+   
+    drawProgram();
+    drawCommittees();
+    drawSponsors();
+    drawBrand();
+  });
+})();
+</script>
+
+</div>
+</body>
+</html>
