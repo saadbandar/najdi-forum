@@ -791,7 +791,7 @@ dash.calc('nk_mix', {
     const out = [];
     ['photos', 'photos2'].forEach((id) => {
       const d = dash.data(id);
-      if (d.status === 'ok') d.data.forEach((p) => out.push({ kind: p.kind, order: Number(p.order), cap: '', wide: !!p.wide, thumb: safeSrc(p.thumb) || safeSrc(p.src), src: safeSrc(p.src) }));
+      if (d.status === 'ok') d.data.forEach((p) => out.push({ kind: p.kind === 'aerial' ? 'gallery' : p.kind, order: Number(p.order), cap: '', wide: !!p.wide, thumb: safeSrc(p.thumb) || safeSrc(p.src), src: safeSrc(p.src) }));
     });
     out.sort((a, b) => a.order - b.order);
     const rp = dash.data('round_photos');
@@ -803,7 +803,7 @@ dash.calc('nk_mix', {
     }
     return out.filter((x) => x.src);
   };
-  const GF = [['all', 'الكل'], ['gallery', 'لقطات الملتقى'], ['aerial', 'لقطات جوية'], ['crown', 'التتويج']];
+  const GF = [['all', 'الكل'], ['gallery', 'لقطات الملتقى'], ['crown', 'التتويج']];
   const drawGallery = () => {
     const el = document.getElementById('gal');
     const fl = document.getElementById('gal-filters');
