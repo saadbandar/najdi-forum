@@ -234,12 +234,12 @@ window.dash = (function () {
 .nk-ph:hover img { transform: scale(1.04); }
 .nk-ph .nk-empty { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap: 6px; color: var(--color-fg-muted); font-size: 12px; background: repeating-linear-gradient(45deg, transparent 0 10px, color-mix(in srgb, var(--color-fg) 3%, transparent) 10px 20px); }
 .nk-ph .nk-empty svg { width: 34px; height: 34px; color: var(--nk-gold); }
-.nk-ph figcaption { position:absolute; inset-inline:0; bottom:0; padding: 26px 12px 10px; font-size: 13px; color: #f6f1e6; background: linear-gradient(transparent, rgba(10,22,16,.85)); }
+.nk-ph figcaption { white-space: pre-line; line-height: 1.6; position:absolute; inset-inline:0; bottom:0; padding: 26px 12px 10px; font-size: 13px; color: #f6f1e6; background: linear-gradient(transparent, rgba(10,22,16,.85)); }
 .nk-filters { display:flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
 .nk-lb { border: 0; padding: 0; background: transparent; max-width: min(94vw, 1100px); max-height: 92vh; }
 .nk-lb::backdrop { background: rgba(8,16,12,.86); }
 .nk-lb img { max-width: 100%; max-height: 82vh; display:block; border-radius: 12px; margin-inline: auto; }
-.nk-lb p { color: #f6f1e6; text-align:center; margin: 10px 0 0; font-size: 14px; direction: rtl; }
+.nk-lb p { white-space: pre-line; color: #f6f1e6; text-align:center; margin: 10px 0 0; font-size: 14px; direction: rtl; }
 .nk-lb-nav { position:absolute; top: 45%; font: inherit; font-size: 30px; line-height: 1; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(0,0,0,.5); color:#fff; cursor:pointer; z-index: 2; }
 .nk-lb-nav.prev { right: 8px; } .nk-lb-nav.next { left: 8px; }
 .nk-lb-x { position: absolute; top: 6px; inset-inline-end: 6px; font: inherit; background: rgba(0,0,0,.5); color: #fff; border: 0; border-radius: 999px; width: 34px; height: 34px; cursor: pointer; }
@@ -797,7 +797,7 @@ dash.calc('nk_mix', {
     if (rp.status === 'ok') {
       [...rp.data].sort((a, b) => a.round - b.round || a.place - b.place).forEach((p) => {
         const r = resultOf(p.round, p.place);
-        out.push({ kind: 'crown', cap: 'تتويج المركز ' + placeName[Number(p.place)] + (r ? ' — شوط ' + r.round_name + ': ' + r.winner : ''), wide: false, thumb: safeSrc(p.thumb) || safeSrc(p.src), src: safeSrc(p.src) });
+        out.push({ kind: 'crown', cap: 'المركز ' + placeName[Number(p.place)] + (r ? ' — شوط ' + r.round_name + '\n' + r.winner : ''), wide: false, thumb: safeSrc(p.thumb) || safeSrc(p.src), src: safeSrc(p.src) });
       });
     }
     return out.filter((x) => x.src);
