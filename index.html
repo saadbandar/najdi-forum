@@ -437,7 +437,7 @@ window.dash = (function () {
       <button class="nk-tab" role="tab" data-tab="results" aria-selected="false">نتائج المسابقة</button>
       <button class="nk-tab" role="tab" data-tab="org" aria-selected="false">التنظيم والبرنامج</button>
       <button class="nk-tab" role="tab" data-tab="partners" aria-selected="false">شركاء النجاح</button>
-      <button class="nk-tab" role="tab" data-tab="outcomes" aria-selected="false">المخرجات والقادم</button>
+      <button class="nk-tab" role="tab" data-tab="outcomes" aria-selected="false">الجوائز والقادم</button>
       <button class="nk-tab" role="tab" data-tab="gallery" aria-selected="false">معرض الصور</button>
     </nav>
 
@@ -504,12 +504,6 @@ window.dash = (function () {
       <h2 class="nk-h2">اللجان العاملة</h2>
       <p class="nk-lead">تولت أكاديمية المسمى تنظيم الملتقى بإشراف شركة أبعاد المستقبل، وتوزعت أعمال التجهيز والتنظيم واستقبال الحلال والتحكيم على اللجان التالية.</p>
       <div class="nk-comm" id="committees" data-source="committees"></div>
-      <h2 class="nk-h2">تحديات التنفيذ وكيف عولجت</h2>
-      <div class="nk-story" id="story">
-        <div class="nk-step c"><small>التحدي</small><p>طلبت الجهة المسؤولة تغيير موقع الملتقى أو تأجيله قبل موعده بوقت قصير، مما استلزم تجهيز مقر بديل وتحمّل أعمال وتكاليف مستجدة.</p></div>
-        <div class="nk-step r"><small>الاستجابة</small><ul><li>بادرت اللجنة المنظمة بتجهيز المقر البديل واستكمال متطلباته.</li><li>تكفّل رجال الأعمال الداعمون بما استجد من تكاليف.</li><li>أتاح رجل الأعمال فيصل بن ناصر الصويتي التميمي مزرعته لاستضافة الملتقى.</li></ul></div>
-        <div class="nk-step o"><small>النتيجة</small><p>أُقيم الملتقى في موعده ونُفذت المنافسات والعروض والبرنامج المصاحب، وأظهرت التجربة قدرة اللجنة والداعمين على التعاون والاستجابة للتحديات.</p></div>
-      </div>
     </section>
 
     <!-- الشركاء -->
@@ -520,18 +514,11 @@ window.dash = (function () {
 
     <!-- المخرجات -->
     <section class="nk-page" id="outcomes" hidden>
-      <h2 class="nk-h2">جوائز الجمهور والهدايا</h2>
+      <h2 class="nk-h2">الجوائز والهدايا</h2>
       <div class="nk-prize">
-        <div class="nk-prize-card"><small>سحب للجمهور على فحل نجدي</small><div class="nk-big"><b data-source="prizes" data-field="value" data-where="key=draw">—</b><span>ريال</span></div><small>مقدم من رجل الأعمال فيصل بن ناصر الصويتي التميمي</small></div>
-        <div class="nk-prize-card"><small>جوائز شركة المتحدة للأعلاف</small><div class="nk-big"><b data-source="prizes" data-field="value" data-where="key=bags_total">—</b><span>كيسًا</span></div><small><b data-source="prizes" data-field="value" data-where="key=feed_prizes">—</b> جوائز، بواقع <b data-source="prizes" data-field="value" data-where="key=bags_each">—</b> أكياس لكل فائز</small></div>
-        <div class="nk-prize-card"><small>هدايا مجانية</small><div class="nk-big" style="font-size:22px;line-height:1.5">المتحدة للأعلاف<br>والطبيعة المتكاملة للصناعة</div><small>هدايا مقدمة للحضور</small></div>
-      </div>
-      <h2 class="nk-h2">توصيات مقترحة للمراجعة</h2>
-      <div class="nk-recs">
-        <div class="nk-rec">استكمال التنسيق المبكر مع الجهات ذات العلاقة وتثبيت الموقع والموعد قبل الإعلان.</div>
-        <div class="nk-rec">إعداد خطة بديلة للموقع والتجهيز، وتحديد المسؤوليات وآلية تغطية التكاليف الطارئة.</div>
-        <div class="nk-rec">توحيد تسجيل المشاركين وأعداد الأغنام والمبيعات والحضور، وتوثيق مساهمات شركاء النجاح.</div>
-        <div class="nk-rec">تعزيز التعاون مع مكتب الوزارة والداعمين لتطوير النسخ المقبلة وخدمة المربين.</div>
+        <div class="nk-prize-card"><small>سحب للجمهور على فحل نجدي بقيمة</small><div class="nk-big"><b data-source="prizes" data-field="value" data-where="key=draw">—</b><span>ريال</span></div><small>من رجل الأعمال<br>فيصل بن ناصر الصويتي التميمي</small></div>
+        <div class="nk-prize-card"><small>جوائز وهدايا من</small><div class="nk-big" style="font-size:24px;line-height:1.6">شركة المتحدة<br>للأعلاف</div></div>
+        <div class="nk-prize-card"><small>جوائز وهدايا من</small><div class="nk-big" style="font-size:24px;line-height:1.6">المتحدة للأعلاف<br>والطبيعة المتكاملة</div></div>
       </div>
       <div class="nk-next" id="next">
         <small>الموعد القادم — إن شاء الله</small>
@@ -842,7 +829,7 @@ dash.calc('nk_mix', {
       const card = document.createElement('div'); card.className = 'nk-pc' + (p.golds ? ' gold' : '');
       const ph = document.createElement('div'); ph.className = 'nk-pc-ph';
       const badge = document.createElement('span'); badge.className = 'nk-pc-badge';
-      if (p.golds) { badge.textContent = '★ ' + (p.golds > 1 ? p.golds + ' بيارق' : 'بيرق'); } else { badge.hidden = true; }
+      if (p.golds) { badge.textContent = '★ ' + (p.golds === 1 ? 'بيرق' : p.golds === 2 ? 'بيرقين' : p.golds + ' بيارق'); } else { badge.hidden = true; }
       const lines = [];
       const show = (r) => {
         const src = roundPhoto(r.round, r.place);
