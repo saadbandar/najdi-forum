@@ -391,6 +391,11 @@ window.dash = (function () {
   .nk-stat-v { font-size: 21px; }
   .nk-sgrid.g-gold > .nk-sc, .nk-sgrid.g-silver > .nk-sc { flex-basis: 100%; }
 }
+
+/* tabs: 3 x 2 */
+.nk-tabs { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; }
+.nk-tab { text-align: center; white-space: normal; line-height: 1.4; }
+@media (max-width: 640px) { .nk-tabs { gap: 6px; } .nk-tab { padding: 8px 6px; font-size: 12.5px; } }
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 @media (prefers-reduced-motion: no-preference) {
