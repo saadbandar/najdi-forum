@@ -115,7 +115,7 @@ window.dash = (function () {
 .nk-bar-top b { font-variant-numeric: tabular-nums; font-size: 15px; }
 .nk-track { height: 14px; border-radius: 99px; background: color-mix(in srgb, var(--color-fg) 7%, transparent); overflow: hidden; }
 .nk-fill { height: 100%; border-radius: 99px; background: linear-gradient(270deg, var(--nk-green2), var(--nk-gold)); width: 0; transition: width 1.1s cubic-bezier(.2,.8,.2,1); }
-.nk-struct { display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align:center; }
+.nk-struct { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; text-align:center; }
 .nk-struct div { border-radius: 14px; padding: 16px 6px; background: var(--nk-gold-soft); }
 .nk-struct b { display:block; font-size: 32px; font-family: var(--font-anthropic-serif), serif; font-weight: 500; color: var(--nk-gold); }
 .nk-struct2 { grid-template-columns: repeat(2, 1fr); }
@@ -478,7 +478,6 @@ window.dash = (function () {
           <div class="nk-struct">
             <div><b data-source="kpis" data-field="value" data-where="key=rounds">—</b><span>أشواط</span></div>
             <div><b data-source="kpis" data-field="value" data-where="key=places_per_round">—</b><span>مراكز لكل شوط</span></div>
-            <div><b data-source="kpis" data-field="value" data-where="key=committees">—</b><span>لجان عاملة</span></div>
           </div>
         </div>
       </div>
@@ -524,8 +523,8 @@ window.dash = (function () {
       <h2 class="nk-h2">الجوائز والهدايا</h2>
       <div class="nk-prize">
         <div class="nk-prize-card"><small>سحب للجمهور على فحل نجدي بقيمة</small><div class="nk-big"><b data-source="prizes" data-field="value" data-where="key=draw">—</b><span>ريال</span></div><small>من رجل الأعمال<br>فيصل بن ناصر الصويتي التميمي</small></div>
-        <div class="nk-prize-card"><small>جوائز وهدايا من</small><div class="nk-big" style="font-size:24px;line-height:1.6">شركة المتحدة<br>للأعلاف</div></div>
-        <div class="nk-prize-card"><small>جوائز وهدايا من</small><div class="nk-big" style="font-size:24px;line-height:1.6">المتحدة للأعلاف<br>والطبيعة المتكاملة</div></div>
+        <div class="nk-prize-card"><small>جوائز وهدايا من</small><div class="nk-big" style="font-size:22px;line-height:1.5">شركة المتحدة للأعلاف</div><small>أكثر من 750 كيس أعلاف</small><div class="nk-big" style="font-size:22px;line-height:1.5;margin-top:12px">شركة الطبيعة المتكاملة للصناعات</div><small>هدية لكل متوج</small></div>
+        <div class="nk-prize-card"><small>بمشاركة</small><div class="nk-big" style="font-size:22px;line-height:1.5">جمعية الحلوة الخضراء</div><small>توزيع شتلات على الحضور</small></div>
       </div>
       <div class="nk-next" id="next">
         <small>الموعد القادم — إن شاء الله</small>
