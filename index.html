@@ -398,6 +398,11 @@ window.dash = (function () {
 @media (max-width: 640px) { .nk-tabs { gap: 6px; } .nk-tab { padding: 8px 6px; font-size: 12.5px; } }
 .nk-stat-s { font-size: 12px; color: var(--color-fg-muted); margin-top: 2px; }
 .nk-stat-s b { color: var(--color-fg); font-weight: 700; }
+
+/* round chips: 3 x 2 */
+#round-chips { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; overflow: visible; margin-inline: 0 !important; padding-inline: 0 !important; }
+#round-chips .nk-chip { text-align: center; white-space: normal; line-height: 1.5; }
+@media (max-width: 640px) { #round-chips { gap: 6px; } #round-chips .nk-chip { padding: 8px 6px; font-size: 12px; } }
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 @media (prefers-reduced-motion: no-preference) {
