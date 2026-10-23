@@ -396,6 +396,8 @@ window.dash = (function () {
 .nk-tabs { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; }
 .nk-tab { text-align: center; white-space: normal; line-height: 1.4; }
 @media (max-width: 640px) { .nk-tabs { gap: 6px; } .nk-tab { padding: 8px 6px; font-size: 12.5px; } }
+.nk-stat-s { font-size: 12px; color: var(--color-fg-muted); margin-top: 2px; }
+.nk-stat-s b { color: var(--color-fg); font-weight: 700; }
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 @media (prefers-reduced-motion: no-preference) {
@@ -427,7 +429,7 @@ window.dash = (function () {
   <div class="nk-wrap">
     <section class="nk-stats" id="stats">
       <div class="nk-stat nk-anim"><div class="nk-stat-l">الحضور</div><div class="nk-stat-v"><span class="nk-p">أكثر من</span><b class="dash-skeleton" data-source="kpis" data-field="value" data-where="key=attendance">—</b><span class="nk-u">شخص</span></div></div>
-      <div class="nk-stat nk-anim"><div class="nk-stat-l">قيمة جميع المبيعات</div><div class="nk-stat-v"><b class="dash-skeleton" data-source="kpis" data-field="value" data-where="key=sales">—</b><span class="nk-u">ريال</span></div></div>
+      <div class="nk-stat nk-anim"><div class="nk-stat-l">قيمة جميع المبيعات</div><div class="nk-stat-v"><b class="dash-skeleton" data-source="kpis" data-field="value" data-where="key=sales">—</b><span class="nk-u">ريال</span></div><div class="nk-stat-s">لعدد <b data-source="kpis" data-field="value" data-where="key=sold_heads">—</b> رأسًا</div></div>
       <div class="nk-stat nk-anim"><div class="nk-stat-l">المشاركون في المسابقة</div><div class="nk-stat-v"><b class="dash-skeleton" data-source="kpis" data-field="value" data-where="key=total_competitors">—</b><span class="nk-u">مشاركًا</span></div></div>
       <div class="nk-stat nk-anim"><div class="nk-stat-l">رؤوس الأغنام المعروضة</div><div class="nk-stat-v"><b class="dash-skeleton" data-source="nk_mix" data-field="value" data-where="key=heads_total">—</b><span class="nk-u">رأس</span></div></div>
     </section>
@@ -502,7 +504,7 @@ window.dash = (function () {
       <h2 class="nk-h2">البرنامج الزمني</h2>
       <div class="nk-card" id="card-program"><div class="nk-timeline" id="timeline" data-source="program"></div></div>
       <h2 class="nk-h2">اللجان العاملة</h2>
-      <p class="nk-lead">تولت أكاديمية المسمى تنظيم الملتقى بإشراف شركة أبعاد المستقبل، وتوزعت أعمال التجهيز والتنظيم واستقبال الحلال والتحكيم على اللجان التالية.</p>
+      <p class="nk-lead">تولت أكاديمية المسمى تنظيم الملتقى بإشراف شركة أبعاد المستقبل، وتوزعت الأعمال على اللجان التالية.</p>
       <div class="nk-comm" id="committees" data-source="committees"></div>
     </section>
 

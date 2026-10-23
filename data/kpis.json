@@ -1,13 +1,1 @@
-[
-{"key":"attendance","label":"الحضور","value":1200,"unit":"شخص"},
-{"key":"sales","label":"قيمة جميع المبيعات","value":225300,"unit":"ريال"},
-{"key":"members","label":"أعضاء قروب نخبة أهل الحلال","value":30,"unit":"عضو"},
-{"key":"member_competitors","label":"المشاركون بالمسابقة من أعضاء القروب","value":15,"unit":"مشارك"},
-{"key":"guest_competitors","label":"الضيوف المشاركون في المسابقة فقط","value":24,"unit":"مشارك"},
-{"key":"total_competitors","label":"إجمالي المشاركين في المسابقة","value":39,"unit":"مشارك"},
-{"key":"member_heads","label":"أغنام المسابقة من أعضاء القروب","value":108,"unit":"رأس"},
-{"key":"external_heads","label":"الأغنام المشاركة في العروض الخارجية","value":90,"unit":"رأس"},
-{"key":"committees","label":"اللجان","value":4,"unit":"لجان"},
-{"key":"rounds","label":"الأشواط","value":6,"unit":"أشواط"},
-{"key":"places_per_round","label":"المراكز لكل شوط","value":5,"unit":"مراكز"}
-]
+[{"key": "attendance", "label": "الحضور", "value": 1200, "unit": "شخص"}, {"key": "sales", "label": "قيمة جميع المبيعات", "value": 225300, "unit": "ريال"}, {"key": "sold_heads", "label": "عدد الرؤوس المباعة", "value": 43, "unit": "رأس"}, {"key": "members", "label": "أعضاء قروب نخبة أهل الحلال", "value": 30, "unit": "عضو"}, {"key": "member_competitors", "label": "المشاركون بالمسابقة من أعضاء القروب", "value": 15, "unit": "مشارك"}, {"key": "guest_competitors", "label": "الضيوف المشاركون في المسابقة فقط", "value": 24, "unit": "مشارك"}, {"key": "total_competitors", "label": "إجمالي المشاركين في المسابقة", "value": 39, "unit": "مشارك"}, {"key": "member_heads", "label": "أغنام المسابقة من أعضاء القروب", "value": 108, "unit": "رأس"}, {"key": "external_heads", "label": "الأغنام المشاركة في العروض الخارجية", "value": 90, "unit": "رأس"}, {"key": "committees", "label": "اللجان", "value": 5, "unit": "لجان"}, {"key": "rounds", "label": "الأشواط", "value": 6, "unit": "أشواط"}, {"key": "places_per_round", "label": "المراكز لكل شوط", "value": 5, "unit": "مراكز"}]
